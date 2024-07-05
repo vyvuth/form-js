@@ -27,15 +27,22 @@
                     <input type="text" id="qty" placeholder="input quantity.." class=" form-control">
                     <label for="price"><h3>input price:</h3></label>
                     <input type="text" id="price" placeholder="input price.." class=" form-control">
+                    <div class=" mt-3">
+                        <img id="img" width="100%" height="250px" src="" alt="">
+                        <input class=" mt-2 form-control" type="file"  id="file">
+                    </div>
                     <button onclick="AddPro()" class=" btn btn-danger mt-2 text-capitalize">add</button>
+                    <button onclick="upDate()" class=" btn btn-primary mt-2 mx-5 text-capitalize">update</button>
+                    <button onclick="deleted()" class=" btn btn-warning mt-2 mx-4 text-capitalize" >Delete</button>
                 </div>
             </div>
             <div class=" col-lg-6 col-md-6 mt-3">
                 <table id="tableBody" class=" table table-primary table-bordered table-hover">
                     <tr class=" text-center">
                         <th>Name</th>
-                        <th>quantity</th>
+                        <th>Quantity</th>
                         <th>Price</th>
+                        <th>Image</th>
                        
                     </tr>
                 </table>
@@ -44,7 +51,7 @@
     </div>
 </body>
 <script>
-    let table = document.getElementById("tableBody");
+    let rIndex,table = document.getElementById("tableBody");
     function AddPro(){
       // newRow = table.insertRow(table.rows.length);
       // col1 = newRow.insertCell(0);
@@ -53,36 +60,104 @@
         let Name = document.getElementById("name").value;
         let qty = document.getElementById("qty").value;
         let price = document.getElementById("price").value;
-                // rule number 1
-        if(Name === "" && qty === "" && price === "") {
+        let imgFile = document.getElementById("file").files[0];
+        // rule number 1
+        if(Name === "" && qty === "" && price === "" && !imgFile) {
             alert(" 👇Please enter all fields product👇");
         } else if(Name === ""){AlertErrorMessage("Name");}
         else if(qty === ""){AlertErrorMessage(" Quantity");}
         else if(price === ""){AlertErrorMessage(" Price");}
+        else if (!imgFile) {
+            alert("Please choose an Image");}
         else  {
         newRow = table.insertRow(table.rows.length);
         col1 = newRow.insertCell(0);
-        col2 = newRow.insertCell(1);   
+        col2 = newRow.insertCell(1);  
         col3 = newRow.insertCell(2);
+        col4 = newRow.insertCell(3);
         col1.innerHTML = Name;
         col2.innerHTML = qty;
         col3.innerHTML = price;
+        let imgElement = document.createElement('img');
+        imgElement.src = URL.createObjectURL(imgFile);
+        col4.appendChild(imgElement);
+        clearTextFile();
         }
-            // rule number 2
            
         clearTextFile();
+        SelectRow();
+       
         
     };
+     //choose Image
+     let file = document.getElementById("file");
+     let img = document.getElementById("img");
+     file.onchange = function(){
+         img.src = URL.createObjectURL(this.files[0]);
+       }
     function clearTextFile(){
      document.getElementById("name").value = "";
      document.getElementById("qty").value = "";
      document.getElementById("price").value = "";
+     document.getElementById("img").value = "";
     }
     function AlertErrorMessage(message) {
         alert("Please Enter Error Message: " + message);
     }
-   function AlertError(message) {
-       alert("Please Enter Error Message: " + message);
+    // selected option
+   function SelectRow(){
+    for(var i=0; i <table.rows.length; i++){
+        table.rows[i].onclick = function(){
+            if(rIndex!= undefined){
+               // table.rows[i].classList.remove("Selected");
+            }
+            rIndex = this.rowIndex;
+            this.classList.add("Selected");
+            document.getElementById("name").value = this.cells[0].innerHTML;
+            document.getElementById("qty").value = this.cells[1].innerHTML;
+            document.getElementById("price").value = this.cells[2].innerHTML;
+            document.getElementById("img").value = this.cells[3].innerHTML;
+        };
+      
+    }
+    
+   }
+   console.log(SelectRow());
+
+   function upDate() {
+    let Name = document.getElementById("name").value;
+    let qty = document.getElementById("qty").value;
+    let price = document.getElementById("price").value;
+    let imgFile = document.getElementById("file").files[0];
+
+    if (selectedRowIndex === null) {
+        alert("Please select a row to update.");
+    }
+    if (window.confirm("Are you sure you want to update?")) {
+        let row = table.rows[selectedRowIndex];
+        row.cells[0].innerHTML = Name;
+        row.cells[1].innerHTML = qty;
+        row.cells[2].innerHTML = price;
+
+        if (imgFile) {
+            let imgElement = row.cells[3].querySelector("img");
+            imgElement.src = URL.createObjectURL(imgFile);
+        }
+    } else {
+        alert("You are welcome!😘");
+    }
+
+    clearTextFile();
+    selectedRowIndex === null;
+    }
+   function deleted(){
+    if(window.confirm("Are you sure you want to delete")){
+        table.deleteRow(rIndex);
+    } else {
+        alert("delete failed");
+    };
+    clearTextFile();
+
    }
 </script>
 </html>
