@@ -10,6 +10,16 @@
             color: #fff;
             font-size: 25px;
         }
+        .table img {
+            width: 150px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+        tr{
+            align-items: center;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -51,25 +61,24 @@
     </div>
 </body>
 <script>
-    let rIndex,table = document.getElementById("tableBody");
-    function AddPro(){
-      // newRow = table.insertRow(table.rows.length);
-      // col1 = newRow.insertCell(0);
-      // col2 = newRow.insertCell(1);
-      // col3 = newRow.insertCell(2);
-        let Name = document.getElementById("name").value;
-        let qty = document.getElementById("qty").value;
-        let price = document.getElementById("price").value;
-        let imgFile = document.getElementById("file").files[0];
-        // rule number 1
-        if(Name === "" && qty === "" && price === "" && !imgFile) {
-            alert(" 👇Please enter all fields product👇");
-        } else if(Name === ""){AlertErrorMessage("Name");}
-        else if(qty === ""){AlertErrorMessage(" Quantity");}
-        else if(price === ""){AlertErrorMessage(" Price");}
-        else if (!imgFile) {
-            alert("Please choose an Image");}
-        else  {
+    let rIndex, table = document.getElementById("tableBody");
+
+function AddPro() {
+    let Name = document.getElementById("name").value;
+    let qty = document.getElementById("qty").value;
+    let price = document.getElementById("price").value;
+    let imgFile = document.getElementById("file").files[0];
+    if(Name === "" && qty === "" && price === "" && !imgFile) {
+        alert(" 👇Please enter all fields product👇");
+    } else if(Name === "") { 
+        AlertErrorMessage("Name");
+    } else if(qty === "") {
+        AlertErrorMessage(" Quantity");
+    } else if(price === "") {
+        AlertErrorMessage(" Price");
+    } else if (!imgFile) {
+        alert("Please choose an Image");
+    } else {
         newRow = table.insertRow(table.rows.length);
         col1 = newRow.insertCell(0);
         col2 = newRow.insertCell(1);  
@@ -82,63 +91,59 @@
         imgElement.src = URL.createObjectURL(imgFile);
         col4.appendChild(imgElement);
         clearTextFile();
-        }
-           
-        clearTextFile();
-        SelectRow();
-       
-        
-    };
-     //choose Image
-     let file = document.getElementById("file");
-     let img = document.getElementById("img");
-     file.onchange = function(){
-         img.src = URL.createObjectURL(this.files[0]);
-       }
-    function clearTextFile(){
-     document.getElementById("name").value = "";
-     document.getElementById("qty").value = "";
-     document.getElementById("price").value = "";
-     document.getElementById("img").value = "";
     }
-    function AlertErrorMessage(message) {
-        alert("Please Enter Error Message: " + message);
-    }
-    // selected option
-   function SelectRow(){
-    for(var i=0; i <table.rows.length; i++){
-        table.rows[i].onclick = function(){
-            if(rIndex!= undefined){
-               // table.rows[i].classList.remove("Selected");
+    clearTextFile();
+    SelectRow();
+}
+
+let file = document.getElementById("file");
+let img = document.getElementById("img");
+file.onchange = function() {
+    img.src = URL.createObjectURL(this.files[0]);
+}
+
+function clearTextFile() {
+    document.getElementById("name").value = "";
+    document.getElementById("qty").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("img").src = "";
+}
+
+function AlertErrorMessage(message) {
+    alert("Please Enter Error Message: " + message);
+}
+
+function SelectRow() {
+    for (var i = 0; i < table.rows.length; i++) {
+        table.rows[i].onclick = function() {
+            if (rIndex != undefined) {
+                // table.rows[i].classList.remove("Selected");
             }
             rIndex = this.rowIndex;
             this.classList.add("Selected");
             document.getElementById("name").value = this.cells[0].innerHTML;
             document.getElementById("qty").value = this.cells[1].innerHTML;
             document.getElementById("price").value = this.cells[2].innerHTML;
-            document.getElementById("img").value = this.cells[3].innerHTML;
+            document.getElementById("img").src = this.cells[3].querySelector("img").src;
         };
-      
     }
-    
-   }
-   console.log(SelectRow());
+}
+console.log(SelectRow());
 
-   function upDate() {
+function upDate() {
     let Name = document.getElementById("name").value;
     let qty = document.getElementById("qty").value;
     let price = document.getElementById("price").value;
     let imgFile = document.getElementById("file").files[0];
 
-    if (selectedRowIndex === null) {
+    if (rIndex === null || rIndex === undefined) {
         alert("Please select a row to update.");
-    }
-    if (window.confirm("Are you sure you want to update?")) {
-        let row = table.rows[selectedRowIndex];
+    } else if (window.confirm("Are you sure you want to update?")) {
+        let row = table.rows[rIndex];
         row.cells[0].innerHTML = Name;
         row.cells[1].innerHTML = qty;
         row.cells[2].innerHTML = price;
-
+        
         if (imgFile) {
             let imgElement = row.cells[3].querySelector("img");
             imgElement.src = URL.createObjectURL(imgFile);
@@ -146,18 +151,17 @@
     } else {
         alert("You are welcome!😘");
     }
-
     clearTextFile();
-    selectedRowIndex === null;
-    }
-   function deleted(){
-    if(window.confirm("Are you sure you want to delete")){
+}
+
+function deleted() {
+    if (window.confirm("Are you sure you want to delete")) {
         table.deleteRow(rIndex);
     } else {
         alert("delete failed");
-    };
+    }
     clearTextFile();
+}
 
-   }
 </script>
 </html>
