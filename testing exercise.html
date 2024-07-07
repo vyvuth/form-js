@@ -31,6 +31,15 @@
         tr{
             text-align: center;
         }
+        .form-register{
+            margin-top:10rem;
+            padding: 15px;
+        }
+        img{
+            width:100%;
+            height:100%;
+        }
+        
     </style>
 </head>
 <body>
@@ -64,8 +73,25 @@
                 </div>
             </div>
         </div>
+        <div class=" form-register ">
+            <form action="#" class=" bg-dark w-50 m-auto p-3 rounded rounded-2">
+                <label for="user" class=" text-light fs-5 text-capitalize fw-medium">input username:</label>
+                <input type="text" placeholder="input username" class=" form-control">
+                <label for="email" class=" text-light fs-5 text-capitalize fw-medium">input email:</label>
+                <input type="text" placeholder="vy@email.com" class=" form-control">
+                <label for="password" class=" text-light fs-5 text-capitalize fw-medium">input password:</label>
+                <input type="password" placeholder="input password" class=" form-control">
+                <label for="phone" class=" text-light fs-5 text-capitalize fw-medium">input phone number:</label>
+                <input type="text" placeholder="input phone number" class=" form-control">
+                <button type="submit" class=" btn btn-success mt-2 text-capitalize fw-bold">submit</button>
+            </form>
+        </div>
+        <div class=" mt-5 m-auto border border-primary border-2 w-50 h-50">
+            <img onmouseover="check()" id="image" onmouseout="checks()" src="" alt="">
+        </div>
     </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
           // Add into table
     let rIndex,table = document.getElementById("tableBody");
@@ -111,6 +137,7 @@
         document.getElementById("age").value = "";
         document.getElementById("proFrom").value = "";
         document.getElementById("img").src = "";
+        document.querySelector("form").value = "";
     }
 
         // function select
@@ -134,7 +161,10 @@
         table.rows[rIndex].cells[0].innerHTML = document.getElementById("name").value;
         table.rows[rIndex].cells[1].innerHTML = document.getElementById("age").value;
         table.rows[rIndex].cells[2].innerHTML = document.getElementById("proFrom").value;
-        table.rows[rIndex].cells[3].src = document.getElementById("img").src
+        let imgElm = table.rows[rIndex].cells[3].querySelector("img");
+        if(imgElm){
+            imgElm.src = document.getElementById("img").src;
+        }
         }else {
             alert("😥 🤣");
         }
@@ -150,5 +180,25 @@
         }
         clearText();
     }
+
+        // sweetalert
+   let form = document.querySelector("form");
+   form.addEventListener('submit',(ev)=>{
+       Swal.fire({
+           title: "Success Message!",
+           text: "Well done, you pressed a button!",
+           icon: "success"
+         });
+         clearText();
+   });
+
+        // mouseover
+        let img = document.getElementById("image");
+        function check(){
+            img.src = "/j.jpg";
+        }
+        function checks(){
+            img.src = "/j1.jpg";
+        }
 </script>
 </html>
