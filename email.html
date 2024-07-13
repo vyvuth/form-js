@@ -24,15 +24,17 @@
             <input type="hidden" name="access_key" value="562fa0a8-06c5-4fec-8c4a-8f5d76f3ef18" class=" form-control">
             <h2>send email api</h2>
             <label for="user">username:</label>
-            <input type="text" name="user" placeholder=" Enter username" class=" form-control">
+            <input type="text" name="Username:" placeholder=" Enter username" class=" form-control">
             <label for="email">email:</label>
-            <input type="email" name="email" placeholder=" Enter email" class=" form-control">
-            <label for="password">password</label>
-            <input type="password" name="pws" placeholder=" Enter password" class=" form-control">
-            <label for="confirm">confirm password</label>
-            <input type="password" name="cps" placeholder=" Enter confirm" class=" form-control">
+            <input type="email" name="Email" placeholder=" Enter email" class=" form-control">
+            <label for="pin code">Pin code</label>
+            <input type="pin code" name="Pin code" placeholder=" Enter pin code" class=" form-control">
+            <label for="confirm">confirm pin code</label>
+            <input type="confirm pin" name="Confirm pin code" placeholder=" Enter confirm" class=" form-control">
+            <label for="message">message:</label>
+            <input type="text" name="message" placeholder=" Enter message" class=" form-control h-25">
             <button type="submit" class=" btn btn-success text-capitalize mt-3">submit</button>
-            <button class=" btn btn-danger mt-3 text-capitalize mx-2">clear</button>
+            <button type="clear" id="clearButton" class=" btn btn-danger mt-3 text-capitalize mx-2">clear</button>
 
         </form>
         <h1 class=" message text-center text-success"></h1>
@@ -65,6 +67,10 @@
                     message.innerHTML = json.message; 
                 }
             })
+    });
+    document.getElementById("clearButton").addEventListener("click", () => {
+        form.reset();
+        message.innerHTML = "";
     });
 </script>
 </html>
