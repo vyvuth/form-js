@@ -1,0 +1,158 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        label{
+            color: #fff;
+            text-transform: capitalize;
+            font-size: 25px;
+        }
+        .btn{
+            font-size: 25px;
+            font-weight: 500;
+        }
+        ::placeholder{
+            text-transform: capitalize;
+        }
+        .container{
+            width: 100%;
+
+        }
+        .input-control .error{
+            color: red;
+        }
+        .input-control.error input{
+            border: 2px solid red;
+        }
+        .input-control .success{
+            color: green;
+        }
+        .input-control.success input{
+            border: 2px solid green;
+        }
+      
+    </style>
+</head>
+<body>
+    <div class="">
+                <form id="register-form" class=" mt-5  w-50 bg-dark m-auto p-2 rounded rounded-3">
+                    <h1 class=" text-capitalize text-light ">register form</h1>
+                    <div class="input-control">
+                        <label for="user">username:</label>
+                        <input type="text" id="user" placeholder="input username" class=" form-control">
+                        <span class=" error"></span>
+                        <span class=" success"></span>
+                    </div>
+                    <div class="input-control">
+                        <label for="psd">password:</label>
+                        <input type="password" id="psd" placeholder="input password" class=" form-control">
+                        <span class=" error"></span>
+                        <span class=" success"></span>
+                    </div>
+                    <div class="input-control">
+                        <label for="cnPass">confirm password:</label>
+                        <input type="password" id="cnPass" placeholder="input confirm password" class=" form-control">
+                        <span class=" error"></span>
+                        <span class=" success"></span>
+                    </div>
+                    <div class="input-control">
+                        <label for="email">email:</label>
+                        <input type="email" id="email" placeholder="input email" class=" form-control">
+                        <span class=" error"></span>
+                        <span class=" success"></span>
+                        <button type="submit" class=" btn btn-danger text-capitalize mt-2 form-control">log in</button>
+                    </div>
+                </form>
+        </div>
+</body>
+            <script>
+                let form = document.querySelector('form');
+                let email = document.getElementById('email');
+                let password = document.getElementById('psd');
+                let username = document.getElementById('user');
+                let cnPassword = document.getElementById('cnPass');
+                 form.addEventListener('submit',(e)=>{
+                    e.preventDefault();
+                    InputsValidation();
+                    reset();
+
+                 });
+
+                 let isValidEmail = email =>{
+                    let RegexEmail = /^[a-zA-Z0-9._][^\s]+@]+\[^\s@]+$/;
+                    RegexEmail.test(String(Email).toLocaleLowerCase()); 
+                 }
+
+                 function setError(element, message) {
+                    let inputControl = element.parentElement
+                    let errorDisplay = inputControl.querySelector('.error');
+                    let successDisplay = inputControl.querySelector('.success');
+
+                    errorDisplay.innerText = message;
+                    successDisplay.innerText = '';
+                    inputControl.classList.add('error');
+                    inputControl.classList.remove('success');
+
+                 }
+
+                 function setSuccess(element, message) {
+                    let inputControl = element.parentElement
+                    let errorDisplay = inputControl.querySelector('.error');
+                    let successDisplay = inputControl.querySelector('.success');
+
+                    errorDisplay.innerText = '';
+                    successDisplay.innerText = message;
+                    inputControl.classList.add('success');
+                    inputControl.classList.remove('error');
+                 }
+
+                 function InputsValidation(){
+                    let newName = user.value.trim();
+                    let newPassword = psd.value.trim();
+                    let newEmail = email.value.trim();
+                    let cnPassword = cnPass.value.trim();
+                    if(newName === ""){
+                        setError( username, "Please enter a username")
+                    } else{
+                        setSuccess( username, "Successfully entered")
+                    }
+
+                    if (newEmail === ""){  
+                        setError(email, "Please enter a password")
+                    } else{
+                        setSuccess(email, "Successfully entered")
+                    }
+
+                    if(newPassword === ""){
+                        setError(password, "Please enter a password");
+                    } else if(newPassword.length < 18){
+                        setError(password, "Please enter a password with at least 18 characters ");
+                    } else {
+                        setSuccess(password, "Password entered successfully");
+                    }
+                    
+                    if(cnPassword === ""){
+                        setError(cnPass, "Please enter confirm password");
+                    } else if(cnPassword != newPassword){
+                        setError(cnPass, "Passwords do not match");
+                    }
+                     else {
+                        setSuccess(cnPass, "Password confirmed successfully");
+                    }
+                    
+            
+                 }
+
+                 function reset(){
+                    user.value = "";
+                    psd.value = "";
+                    email.value = "";
+                    cnPass.value = "";
+                 }
+
+
+            </script>
+</html>
